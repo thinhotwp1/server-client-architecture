@@ -25,7 +25,6 @@ public class ProductService {
         }
     }
 
-    // Phương thức tạo bảng
     public void createTableIfNotExists() throws SQLException {
         String createTableSQL = "CREATE TABLE IF NOT EXISTS products (" +
                 "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -81,6 +80,7 @@ public class ProductService {
     }
 
     public boolean createProduct(Product product) throws SQLException {
+        checkAdminPermision();
         String sql = "INSERT INTO products(name, price, stock_quantity) VALUES(?, ?, ?)";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -97,11 +97,7 @@ public class ProductService {
     }
 
     public boolean updateProduct(Product product) throws SQLException {
-        User currentUser = UserCurrent.getCurrentUser();
-
-        if (currentUser == null || currentUser.getRole() != 0) { // 0 là admin
-            throw new SecurityException("Access denied. Admin role is required.");
-        }
+        checkAdminPermision();
         String sql = "UPDATE products SET name = ?, price = ?, stock_quantity = ? WHERE id = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -118,7 +114,16 @@ public class ProductService {
         return true;
     }
 
+    private static void checkAdminPermision() {
+        User currentUser = UserCurrent.getCurrentUser();
+
+        if (currentUser == null || currentUser.getRole() != 0) { // 0 là admin
+            throw new SecurityException("Access denied. Admin role is required.");
+        }
+    }
+
     public boolean deleteProduct(int id) throws SQLException {
+        checkAdminPermision();
         String sql = "DELETE FROM products WHERE id = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -173,6 +178,19 @@ public class ProductService {
             }
         }
         return products;
+    }
+
+
+
+
+    public Product searchProductByName(String name) {
+        Product product = new Product();
+        product.setId(1L);
+        product.setName(name);
+        product.setStockQuantity(100);
+        product.setPrice(200.0);
+
+        return product;
     }
 
 }

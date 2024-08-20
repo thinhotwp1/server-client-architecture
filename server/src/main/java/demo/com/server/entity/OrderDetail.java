@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class OrderDetail {
-    private Long id;
-    private Long orderId;  // Khóa ngoại đến bảng Orders
-    private Long productId;  // Khóa ngoại đến bảng Products
-    private int quantity;
-    private double price;  // Giá tại thời điểm đặt hàng
+    private Long orderDetailId;
+    private Long orderId;
+    private Long productId;
+    private Integer quantity;
+    private Double price;
 }

@@ -3,6 +3,7 @@ package demo.com.server.service;
 import demo.com.server.config.SQLiteConnection;
 import demo.com.server.config.UserCurrent;
 import demo.com.server.entity.User;
+import demo.com.server.rest.ResponseBase;
 import demo.com.server.rest.UserRegisterRequest;
 import jakarta.annotation.PostConstruct;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -75,10 +76,13 @@ public class UserService {
         return user;
     }
 
-    public boolean registerUser(UserRegisterRequest user) throws SQLException {
+    public ResponseBase registerUser(UserRegisterRequest user) throws SQLException {
+        ResponseBase responseBase = new ResponseBase();
         User userExist = getUserByUsername(user.getUsername());
         if (userExist != null) {
-            return false;
+            responseBase.setCode(-1);
+            responseBase.setMessage("User already exists");
+            return responseBase;
         }
         String sql = "INSERT INTO users(email, username, password, role) VALUES(?, ?, ?, ?)";
 
@@ -90,18 +94,32 @@ public class UserService {
             pstmt.setInt(4, user.getRole());
             pstmt.executeUpdate();
         } catch (Exception e) {
-            return false;
+            responseBase.setCode(-1);
+            responseBase.setMessage("Error register user: "+ e.getMessage());
         }
-        return true;
+        responseBase.setCode(0);
+        responseBase.setMessage("Success registered");
+        return responseBase;
     }
 
-    public boolean loginUser(String username, String password) throws SQLException {
-        User user = getUserByUsername(username);
-        if (user != null && passwordEncoder.matches(password, user.getPasswordHash())) {
-            UserCurrent.setCurrentUser(user);
-            return true;
+    public ResponseBase loginUser(String username, String password) {
+        ResponseBase responseBase = new ResponseBase();
+        try {
+            User user = getUserByUsername(username);
+            if (user != null && passwordEncoder.matches(password, user.getPasswordHash())) {
+                UserCurrent.setCurrentUser(user);
+                responseBase.setCode(0);
+                responseBase.setMessage("Success logged in");
+                return responseBase;
+            }
+
+        }catch (Exception e) {
+            responseBase.setCode(-1);
+            responseBase.setMessage("Error login user: "+ e.getMessage());
         }
-        return false;
+        responseBase.setCode(-1);
+        responseBase.setMessage("Wrong password");
+        return responseBase;
     }
 
     public boolean deleteUser(String username) throws SQLException {

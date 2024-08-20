@@ -52,4 +52,20 @@ public class ProductController {
     public List<Product> filterProductsByPrice(@RequestParam double minPrice, @RequestParam double maxPrice) throws SQLException {
         return productService.filterProductsByPrice(minPrice, maxPrice);
     }
+
+
+
+
+    // Tao 1 API moi de search theo ten san pham: Input: Ten san pham, Output: List san pham co ten la input
+    @GetMapping("/search-by-name")
+    public Product searchProductByName(@RequestParam String name) throws SQLException {
+        Product product = new Product();
+        product =  productService.searchProductByName(name);
+
+        return product;
+    }
+
+    // Tao 1 entity moi co ten la man hinh, viet 1 API lay ra san pham
+
+
 }
