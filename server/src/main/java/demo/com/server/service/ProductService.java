@@ -1,7 +1,9 @@
 package demo.com.server.service;
 
 import demo.com.server.config.SQLiteConnection;
+import demo.com.server.config.UserCurrent;
 import demo.com.server.entity.Product;
+import demo.com.server.entity.User;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
@@ -95,6 +97,11 @@ public class ProductService {
     }
 
     public boolean updateProduct(Product product) throws SQLException {
+        User currentUser = UserCurrent.getCurrentUser();
+
+        if (currentUser == null || currentUser.getRole() != 0) { // 0 là admin
+            throw new SecurityException("Access denied. Admin role is required.");
+        }
         String sql = "UPDATE products SET name = ?, price = ?, stock_quantity = ? WHERE id = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();
@@ -123,6 +130,49 @@ public class ProductService {
             return false;
         }
         return true;
+    }
+
+    public List<Product> searchProductsByName(String name) throws SQLException {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE name LIKE ?";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setString(1, "%" + name + "%");
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setId(rs.getLong("id"));
+                    product.setName(rs.getString("name"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStockQuantity(rs.getInt("stock_quantity"));
+                    products.add(product);
+                }
+            }
+        }
+        return products;
+    }
+
+    public List<Product> filterProductsByPrice(double minPrice, double maxPrice) throws SQLException {
+        List<Product> products = new ArrayList<>();
+        String sql = "SELECT * FROM products WHERE price BETWEEN ? AND ?";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.setDouble(1, minPrice);
+            pstmt.setDouble(2, maxPrice);
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Product product = new Product();
+                    product.setId(rs.getLong("id"));
+                    product.setName(rs.getString("name"));
+                    product.setPrice(rs.getDouble("price"));
+                    product.setStockQuantity(rs.getInt("stock_quantity"));
+                    products.add(product);
+                }
+            }
+        }
+        return products;
     }
 
 }

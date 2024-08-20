@@ -42,4 +42,14 @@ public class ProductController {
     public boolean deleteProduct(@RequestBody ProductDeleteRequest request) throws SQLException {
         return productService.deleteProduct(request.getId());
     }
+
+    @GetMapping("/search")
+    public List<Product> searchProductsByName(@RequestParam String name) throws SQLException {
+        return productService.searchProductsByName(name);
+    }
+
+    @GetMapping("/filter")
+    public List<Product> filterProductsByPrice(@RequestParam double minPrice, @RequestParam double maxPrice) throws SQLException {
+        return productService.filterProductsByPrice(minPrice, maxPrice);
+    }
 }

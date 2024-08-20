@@ -25,28 +25,23 @@ public class UserController {
         return userService.getAllUsers();
     }
 
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable long id) throws SQLException {
-        return userService.getUserById(id);
+    @GetMapping("/{userName}")
+    public User getUserByUserName(@PathVariable String userName) throws SQLException {
+        return userService.getUserByUsername(userName);
     }
 
     @PostMapping("/register")
-    public boolean registerUser(@RequestBody UserRegisterRequest request) throws SQLException {
-        User user = new User();
-        user.setEmail(request.getEmail());
-        user.setUsername(request.getUsername());
-        user.setPassword(request.getPassword());
-        user.setRole(request.getRole());
-        return userService.registerUser(user);
+    public Object registerUser(@RequestBody UserRegisterRequest request) throws SQLException {
+        return userService.registerUser(request);
     }
 
     @PostMapping("/login")
-    public User loginUser(@RequestBody UserLoginRequest request) throws SQLException {
+    public boolean loginUser(@RequestBody UserLoginRequest request) throws SQLException {
         return userService.loginUser(request.getUsername(), request.getPassword());
     }
 
     @PostMapping("/delete")
     public boolean deleteUser(@RequestBody UserDeleteRequest request) throws SQLException {
-        return userService.deleteUser(request.getId());
+        return userService.deleteUser(request.getUserName());
     }
 }
