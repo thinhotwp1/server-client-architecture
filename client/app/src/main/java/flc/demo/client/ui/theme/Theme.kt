@@ -1,4 +1,4 @@
-package flc.demo.server_client_architecture.ui.theme
+package flc.demo.client.ui.theme
 
 import android.app.Activity
 import android.os.Build
@@ -34,7 +34,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun ServerclientarchitectureTheme(
+fun ClientTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     // Dynamic color is available on Android 12+
     dynamicColor: Boolean = true,

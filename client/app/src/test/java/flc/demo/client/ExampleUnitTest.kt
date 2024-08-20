@@ -1,4 +1,4 @@
-package flc.demo.server_client_architecture
+package flc.demo.client
 
 import org.junit.Test
 

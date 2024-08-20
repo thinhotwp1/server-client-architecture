@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "flc.demo.server_client_architecture"
+    namespace = "flc.demo.client"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "flc.demo.server_client_architecture"
+        applicationId = "flc.demo.client"
         minSdk = 33
         targetSdk = 34
         versionCode = 1

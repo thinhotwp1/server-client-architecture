@@ -1,4 +1,4 @@
-package flc.demo.server_client_architecture.ui.theme
+package flc.demo.client.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

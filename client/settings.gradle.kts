@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "server-client-architecture"
+rootProject.name = "client"
 include(":app")
+ 
