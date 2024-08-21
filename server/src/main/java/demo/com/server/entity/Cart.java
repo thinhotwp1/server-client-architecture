@@ -2,10 +2,12 @@ package demo.com.server.entity;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Map;
+
 @Data
 public class Cart {
     private Long id;
-    private Long userId;  // Khóa ngoại đến bảng Users
-    private Long productId;  // Khóa ngoại đến bảng Products
-    private int quantity;
+    private Long userId;
+    private List<Map<Long,Integer>> productList; // Map<Id Product, Quantity>
 }

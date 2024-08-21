@@ -7,4 +7,13 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <!-- Define colors for the buttons -->
+    <color name="button_background">#6200EE</color> <!-- Purple color -->
+    <color name="button_text">#FFFFFF</color> <!-- White color -->
+    <!-- Primary color -->
+    <color name="colorPrimary">#6200EE</color> <!-- Purple color -->
+    <color name="colorPrimaryVariant">#3700B3</color> <!-- Darker purple -->
+    <color name="colorOnPrimary">#FFFFFF</color> <!-- White color -->
+    <color name="colorSecondary">#03DAC5</color> <!-- Teal color -->
+    <color name="colorOnSecondary">#000000</color> <!-- Black color -->
 </resources>

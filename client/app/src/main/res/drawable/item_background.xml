@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Màu nền khi nhấn vào item -->
+    <item android:state_pressed="true">
+        <color android:color="#FFDDDDDD" /> <!-- Ripple khi nhấn (màu xám nhạt) -->
+    </item>
+    <!-- Màu nền khi item được chọn -->
+    <item android:state_selected="true">
+        <color android:color="#FFBB86FC" /> <!-- Màu nền khi chọn (màu tím) -->
+    </item>
+    <!-- Màu nền mặc định -->
+    <item>
+        <color android:color="@android:color/white" /> <!-- Màu nền mặc định (trắng) -->
+    </item>
+</selector>

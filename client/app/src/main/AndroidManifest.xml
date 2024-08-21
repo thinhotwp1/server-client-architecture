@@ -11,18 +11,51 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Client"
-        tools:targetApi="31">
+
+        android:networkSecurityConfig="@xml/network_security_config">
+
+        <!-- HomeActivity -->
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:exported="true"
-            android:label="@string/app_name"
             android:theme="@style/Theme.Client">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!-- LoginActivity -->
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:label="@string/login"
+            android:theme="@style/Theme.Client" />
+
+        <!-- RegisterActivity -->
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="true"
+            android:label="@string/register"
+            android:theme="@style/Theme.Client" />
+
+        <activity
+            android:name=".AdminActivity"
+            android:exported="true"
+            android:label="@string/admin_activity_label" />
+
+        <activity
+            android:name=".CategoryManagementActivity"
+            android:exported="true"
+            android:label="@string/category_management_activity_label" />
+
+        <activity
+            android:name=".ProductManagementActivity"
+            android:exported="true"
+            android:label="@string/product_management_activity_label" />
+
     </application>
+    <uses-permission android:name="android.permission.INTERNET"
+        tools:ignore="ManifestOrder" />
 
 </manifest>

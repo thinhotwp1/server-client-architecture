@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public boolean loginUser(@RequestBody UserLoginRequest request) throws SQLException {
+    public Object loginUser(@RequestBody UserLoginRequest request) throws SQLException {
         return userService.loginUser(request.getUsername(), request.getPassword());
     }
 

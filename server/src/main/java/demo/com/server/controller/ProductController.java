@@ -48,6 +48,11 @@ public class ProductController {
         return productService.searchProductsByName(name);
     }
 
+    @GetMapping("/search-by-category")
+    public List<Product> searchProductsByCategory(@RequestParam Long categoryId) throws SQLException {
+        return productService.searchProductsByCategoryId(categoryId);
+    }
+
     @GetMapping("/filter")
     public List<Product> filterProductsByPrice(@RequestParam double minPrice, @RequestParam double maxPrice) throws SQLException {
         return productService.filterProductsByPrice(minPrice, maxPrice);

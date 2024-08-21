@@ -95,13 +95,13 @@ public class UserService {
         return true;
     }
 
-    public boolean loginUser(String username, String password) throws SQLException {
+    public User loginUser(String username, String password) throws SQLException {
         User user = getUserByUsername(username);
         if (user != null && passwordEncoder.matches(password, user.getPasswordHash())) {
             UserCurrent.setCurrentUser(user);
-            return true;
+            return user;
         }
-        return false;
+        throw new RuntimeException("Invalid username or password");
     }
 
     public boolean deleteUser(String username) throws SQLException {
