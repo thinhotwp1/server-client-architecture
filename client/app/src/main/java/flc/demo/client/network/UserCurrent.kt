@@ -1,4 +1,6 @@
-package flc.demo.client.model
+package flc.demo.client.network
+
+import flc.demo.client.model.User
 
 
 object UserCurrent {

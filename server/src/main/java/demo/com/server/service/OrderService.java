@@ -3,6 +3,7 @@ package demo.com.server.service;
 import demo.com.server.config.SQLiteConnection;
 import demo.com.server.entity.Order;
 import demo.com.server.entity.OrderDetail;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Service;
 
@@ -14,13 +15,18 @@ import java.util.List;
 @Service
 @Log4j2
 public class OrderService {
+    @PostConstruct
+    public void init() throws SQLException {
+        createTablesIfNotExist();
+    }
 
     public void createTablesIfNotExist() throws SQLException {
         String createOrderTableSQL = "CREATE TABLE IF NOT EXISTS orders (" +
                 "order_id INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "username TEXT NOT NULL, " +
                 "order_date TEXT NOT NULL, " +
-                "status TEXT NOT NULL" +
+                "status TEXT NOT NULL," +
+                "total REAL NOT NULL " +
                 ");";
 
         String createOrderDetailTableSQL = "CREATE TABLE IF NOT EXISTS order_details (" +
@@ -40,7 +46,7 @@ public class OrderService {
     }
 
     public boolean createOrder(Order order, List<OrderDetail> orderDetails) throws SQLException {
-        String insertOrderSQL = "INSERT INTO orders(username, order_date, status) VALUES(?, ?, ?)";
+        String insertOrderSQL = "INSERT INTO orders(username, order_date, status, total) VALUES(?, ?, ?, ?)";
         String insertOrderDetailSQL = "INSERT INTO order_details(order_id, product_id, quantity, price) VALUES(?, ?, ?, ?)";
         String updateStockSQL = "UPDATE products SET stock_quantity = stock_quantity - ? WHERE id = ?";
 
@@ -55,6 +61,7 @@ public class OrderService {
             pstmtOrder.setString(1, order.getUsername());
             pstmtOrder.setString(2, order.getOrderDate().toString());
             pstmtOrder.setString(3, order.getStatus());
+            pstmtOrder.setDouble(4, order.getTotal());
             int affectedRows = pstmtOrder.executeUpdate();
 
             if (affectedRows == 0) {
@@ -108,6 +115,7 @@ public class OrderService {
                     order.setUsername(rs.getString("username"));
                     order.setOrderDate(LocalDateTime.parse(rs.getString("order_date")));
                     order.setStatus(rs.getString("status"));
+                    order.setTotal(rs.getDouble("total"));
                 }
             }
         }
@@ -128,6 +136,7 @@ public class OrderService {
                     order.setUsername(rs.getString("username"));
                     order.setOrderDate(LocalDateTime.parse(rs.getString("order_date")));
                     order.setStatus(rs.getString("status"));
+                    order.setTotal(rs.getDouble("total"));
                     orders.add(order);
                 }
             }

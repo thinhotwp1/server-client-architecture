@@ -7,7 +7,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import flc.demo.client.model.User
-import flc.demo.client.model.UserCurrent
+import flc.demo.client.network.UserCurrent
 import flc.demo.client.network.ApiClient
 import flc.demo.client.network.UserApi
 import flc.demo.client.model.UserLoginRequest
@@ -58,7 +58,7 @@ class LoginActivity : ComponentActivity() {
                                 startActivity(intent)
                                 finish()
                             }else{
-                                val intent = Intent(this@LoginActivity, HomeActivity::class.java)
+                                val intent = Intent(this@LoginActivity, UserActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }

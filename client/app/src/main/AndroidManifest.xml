@@ -43,6 +43,10 @@
             android:name=".AdminActivity"
             android:exported="true"
             android:label="@string/admin_activity_label" />
+        <activity
+            android:name=".UserActivity"
+            android:exported="true"
+            android:label="@string/user_activity_label" />
 
         <activity
             android:name=".CategoryManagementActivity"
@@ -53,6 +57,16 @@
             android:name=".ProductManagementActivity"
             android:exported="true"
             android:label="@string/product_management_activity_label" />
+
+        <activity
+            android:name=".ProductSelectionActivity"
+            android:exported="true"
+            android:label="@string/product_selection_activity_label" />
+
+        <activity
+            android:name=".CartActivity"
+            android:exported="true"
+            android:label="@string/cart_activity_label" />
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"

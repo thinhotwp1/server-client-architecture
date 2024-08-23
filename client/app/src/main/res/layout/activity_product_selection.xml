@@ -50,10 +50,10 @@
         android:layout_weight="1"
         android:layout_marginBottom="16dp" />
 
-    <!-- Button for adding a new product -->
     <Button
-        android:id="@+id/add_product_button"
+        android:id="@+id/view_cart_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/add_product" />
+        android:text="@string/view_cart"
+        android:layout_marginTop="16dp" />
 </LinearLayout>

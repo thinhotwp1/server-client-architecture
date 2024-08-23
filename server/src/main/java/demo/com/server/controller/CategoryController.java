@@ -19,7 +19,6 @@ public class CategoryController {
         this.categoryService = categoryService;
     }
 
-    // Lấy tất cả categories
     @GetMapping
     public ResponseEntity<List<Category>> getAllCategories() {
         try {
@@ -30,7 +29,6 @@ public class CategoryController {
         }
     }
 
-    // Lấy category theo id
     @GetMapping("/{id}")
     public ResponseEntity<Category> getCategoryById(@PathVariable Long id) {
         try {
@@ -45,7 +43,6 @@ public class CategoryController {
         }
     }
 
-    // Tạo mới category
     @PostMapping("/create")
     public Object createCategory(@RequestBody Category category) {
         try {

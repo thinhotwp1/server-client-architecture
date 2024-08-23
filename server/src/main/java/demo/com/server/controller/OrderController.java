@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 @RestController
 @RequestMapping("/orders")
@@ -29,6 +30,12 @@ public class OrderController {
         order.setStatus("Pending");
 
         List<OrderDetail> orderDetails = orderRequest.getOrderDetails();
+        Double total = (double) 0;
+        for (OrderDetail orderDetail : orderDetails) {
+            total += orderDetail.getPrice() * orderDetail.getQuantity();
+        }
+        order.setTotal(total);
+
         return orderService.createOrder(order, orderDetails);
     }
 

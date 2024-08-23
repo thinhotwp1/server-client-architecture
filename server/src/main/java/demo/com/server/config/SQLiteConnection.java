@@ -20,9 +20,9 @@ public class SQLiteConnection {
             try {
                 File directory = new File("./data");
                 if (!directory.exists()) {
-                    directory.mkdirs(); // Tạo thư mục nếu chưa tồn tại
+                    directory.mkdirs();
                 }
-                dbFile.createNewFile(); // Tạo file database.db nếu chưa tồn tại
+                dbFile.createNewFile();
                 System.out.println("Database file created at: " + dbFile.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();

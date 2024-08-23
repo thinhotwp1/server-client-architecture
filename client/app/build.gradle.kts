@@ -79,6 +79,8 @@ dependencies {
     implementation(libs.converter.gson)
     // https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
     implementation(libs.glide)
+    implementation (libs.androidx.appcompat)
+
 
 
 }
