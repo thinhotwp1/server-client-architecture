@@ -8,18 +8,15 @@ import androidx.activity.ComponentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import flc.demo.client.adapter.CartAdapter
-import flc.demo.client.network.ApiClient
-import flc.demo.client.network.Cart
-import flc.demo.client.network.CartItem
+import flc.demo.client.network.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
-import flc.demo.client.network.CartService
-import flc.demo.client.network.UserCurrent
 
 class CartActivity : ComponentActivity() {
 
     private lateinit var cartService: CartService
+    private lateinit var orderService: OrderService
     private lateinit var recyclerView: RecyclerView
     private lateinit var cartAdapter: CartAdapter
     private var cartItems = mutableListOf<CartItem>()
@@ -29,6 +26,8 @@ class CartActivity : ComponentActivity() {
         setContentView(R.layout.activity_cart)
 
         cartService = ApiClient.createService(CartService::class.java)
+        orderService = ApiClient.createService(OrderService::class.java) // Initialize OrderService
+
         recyclerView = findViewById(R.id.recycler_view_cart_items)
         val checkoutButton: Button = findViewById(R.id.order_button)
 
@@ -43,9 +42,9 @@ class CartActivity : ComponentActivity() {
         // Fetch and display cart items
         fetchCartItems()
 
-        // Set up checkout button
+        // Set up checkout button functionality
         checkoutButton.setOnClickListener {
-            Toast.makeText(this, "Checkout feature not yet implemented", Toast.LENGTH_SHORT).show()
+            createOrder()
         }
     }
 
@@ -74,6 +73,74 @@ class CartActivity : ComponentActivity() {
         }
     }
 
+    // Checkout and create an order
+    private fun createOrder() {
+        val currentUser = UserCurrent.getCurrentUser()
+
+        if (currentUser == null) {
+            Toast.makeText(this, "User not logged in", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Prepare order details from cart items
+        val orderDetails = cartItems.map { cartItem ->
+            OrderDetail(
+                productId = cartItem.product.id,
+                productName = cartItem.product.name,
+                price = cartItem.product.price,
+                quantity = cartItem.quantity,
+            )
+        }
+
+        if (orderDetails.isEmpty()) {
+            Toast.makeText(this, "Cart is empty", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        val orderRequest = OrderRequest(
+            username = currentUser.username,
+            orderDetails = orderDetails
+        )
+
+        // Call the createOrder API
+        orderService.createOrder(orderRequest).enqueue(object : Callback<Boolean> {
+            override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                if (response.isSuccessful && response.body() == true) {
+                    Toast.makeText(this@CartActivity, "Order created successfully", Toast.LENGTH_SHORT).show()
+                    clearCart() // Clear the cart after successful checkout
+                } else {
+                    Toast.makeText(this@CartActivity, "Failed to create order", Toast.LENGTH_SHORT).show()
+                }
+            }
+
+            override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                t.printStackTrace()
+                Toast.makeText(this@CartActivity, "Error creating order", Toast.LENGTH_SHORT).show()
+            }
+        })
+    }
+
+    // Clear cart after successful order
+    private fun clearCart() {
+        UserCurrent.getCurrentUser()?.let { currentUser ->
+            cartService.clearCart(currentUser.username).enqueue(object : Callback<Boolean> {
+                override fun onResponse(call: Call<Boolean>, response: Response<Boolean>) {
+                    if (response.isSuccessful) {
+                        Toast.makeText(this@CartActivity, "Cart cleared", Toast.LENGTH_SHORT).show()
+                        fetchCartItems() // Refresh cart UI
+                    } else {
+                        Toast.makeText(this@CartActivity, "Failed to clear cart", Toast.LENGTH_SHORT).show()
+                    }
+                }
+
+                override fun onFailure(call: Call<Boolean>, t: Throwable) {
+                    t.printStackTrace()
+                    Toast.makeText(this@CartActivity, "Error clearing cart", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
     private fun deleteCartItem(productId: Long) {
         UserCurrent.getCurrentUser()?.let { currentUser ->
             cartService.removeProductFromCart(currentUser.username, productId)
@@ -95,4 +162,3 @@ class CartActivity : ComponentActivity() {
         }
     }
 }
-

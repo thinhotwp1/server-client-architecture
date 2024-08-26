@@ -9,6 +9,6 @@ public class Order {
     private Long orderId;
     private String username; // Username
     private LocalDateTime orderDate;
-    private String status; // "Pending" or "Completed"
+    private String status; // "Shipping" or "Completed"
     private Double total;
 }

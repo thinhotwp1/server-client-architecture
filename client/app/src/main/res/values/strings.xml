@@ -37,5 +37,6 @@
     <string name="order">Order</string>
     <string name="cart_item">Cart Item</string>
     <string name="delete">Delete</string>
+    <string name="order_history">Order History</string>
     <!-- Add other strings here -->
 </resources>

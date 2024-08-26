@@ -70,17 +70,15 @@ dependencies {
 
     // New
 
-    implementation(libs.androidx.core.ktx) // Android core ktx
-    // https://mvnrepository.com/artifact/com.squareup.retrofit2/adapter-rxjava2
+    implementation(libs.androidx.core.ktx)
     implementation(libs.adapter.rxjava2)
-    // https://mvnrepository.com/artifact/com.google.code.gson/gson
     implementation(libs.gson)
-    // https://mvnrepository.com/artifact/com.squareup.retrofit2/converter-gson
     implementation(libs.converter.gson)
-    // https://mvnrepository.com/artifact/com.github.bumptech.glide/glide
     implementation(libs.glide)
     implementation (libs.androidx.appcompat)
-
+    implementation (libs.kotlinx.coroutines.core)
+    implementation (libs.kotlinx.coroutines.android)
+    implementation (libs.androidx.recyclerview)
 
 
 }

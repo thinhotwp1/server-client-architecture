@@ -5,16 +5,27 @@ import demo.com.server.entity.Order;
 import demo.com.server.entity.OrderDetail;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @Log4j2
 public class OrderService {
+
+    @Autowired
+    ProductService productService;
+
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+
+
     @PostConstruct
     public void init() throws SQLException {
         createTablesIfNotExist();
@@ -68,9 +79,10 @@ public class OrderService {
                 throw new SQLException("Creating order failed, no rows affected.");
             }
 
+            long orderId;
             try (ResultSet generatedKeys = pstmtOrder.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
-                    long orderId = generatedKeys.getLong(1);
+                    orderId = generatedKeys.getLong(1);
 
                     for (OrderDetail detail : orderDetails) {
                         // Insert order detail
@@ -88,16 +100,33 @@ public class OrderService {
 
                     pstmtOrderDetail.executeBatch();
                     pstmtUpdateStock.executeBatch();
+                } else {
+                    throw new SQLException("Creating order failed, no ID obtained.");
                 }
             }
 
             conn.commit();
+
+            // Schedule task to update order status after 3 minutes
+            scheduleStatusUpdate(orderId, "Completed");
+
         } catch (Exception e) {
             log.error("Error creating order", e);
             return false;
         }
 
         return true;
+    }
+
+    private void scheduleStatusUpdate(Long orderId, String status) {
+        scheduler.schedule(() -> {
+            try {
+                log.info("Updating order status to {} for orderId {}", status, orderId);
+                updateOrderStatus(orderId, status);
+            } catch (SQLException e) {
+                log.error("Failed to update order status for orderId {}", orderId, e);
+            }
+        }, 3, TimeUnit.MINUTES); // Update after 3 minutes
     }
 
 
@@ -174,10 +203,12 @@ public class OrderService {
                     detail.setProductId(rs.getLong("product_id"));
                     detail.setQuantity(rs.getInt("quantity"));
                     detail.setPrice(rs.getDouble("price"));
+                    detail.setProductName(productService.getProductById(Math.toIntExact(detail.getProductId())).getName());
                     orderDetails.add(detail);
                 }
             }
         }
+
         return orderDetails;
     }
 }

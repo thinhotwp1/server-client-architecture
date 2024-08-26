@@ -23,6 +23,7 @@ class CartAdapter(
         val priceTextView: TextView = itemView.findViewById(R.id.product_price)
         val deleteButton: Button = itemView.findViewById(R.id.deleteButton)
 
+        @SuppressLint("SetTextI18n")
         fun bind(cartItem: CartItem) {
             productNameTextView.text = cartItem.product.name
             quantityTextView.text = "Quantity: ${cartItem.quantity}"

@@ -22,15 +22,16 @@ public class OrderController {
         this.orderService = orderService;
     }
 
+    // endpoint: http://localhost:8080/orders/create
     @PostMapping("/create")
     public boolean createOrder(@RequestBody OrderRequest orderRequest) throws SQLException {
         Order order = new Order();
         order.setUsername(orderRequest.getUsername());
         order.setOrderDate(LocalDateTime.now());
-        order.setStatus("Pending");
+        order.setStatus("Shipping");
 
         List<OrderDetail> orderDetails = orderRequest.getOrderDetails();
-        Double total = (double) 0;
+        double total = 0;
         for (OrderDetail orderDetail : orderDetails) {
             total += orderDetail.getPrice() * orderDetail.getQuantity();
         }
