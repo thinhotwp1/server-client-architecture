@@ -7,8 +7,8 @@ import java.time.LocalDateTime;
 @Data
 public class Order {
     private Long orderId;
-    private String username; // Username
+    private String username;
     private LocalDateTime orderDate;
-    private String status; // "Shipping" or "Completed"
+    private String status; // Pending, Shipping, Completed
     private Double total;
 }

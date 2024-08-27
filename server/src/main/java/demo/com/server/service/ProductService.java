@@ -131,11 +131,6 @@ public class ProductService {
     }
 
     public boolean updateProduct(Product product) throws SQLException {
-        User currentUser = UserCurrent.getCurrentUser();
-
-        if (currentUser == null || currentUser.getRole() != 0) { // 0 là admin
-            throw new SecurityException("Access denied. Admin role is required.");
-        }
         String sql = "UPDATE products SET name = ?, price = ?, stock_quantity = ?, category_id = ?, url_image = ? WHERE id = ?";
 
         try (Connection conn = SQLiteConnection.getConnection();

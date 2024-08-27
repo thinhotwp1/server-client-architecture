@@ -3,6 +3,7 @@ package demo.com.server.service;
 import demo.com.server.config.SQLiteConnection;
 import demo.com.server.entity.Order;
 import demo.com.server.entity.OrderDetail;
+import demo.com.server.entity.Product;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -203,7 +204,8 @@ public class OrderService {
                     detail.setProductId(rs.getLong("product_id"));
                     detail.setQuantity(rs.getInt("quantity"));
                     detail.setPrice(rs.getDouble("price"));
-                    detail.setProductName(productService.getProductById(Math.toIntExact(detail.getProductId())).getName());
+                    Product product = productService.getProductById(Math.toIntExact(detail.getProductId()));
+                    detail.setProductName(product != null ? product.getName() : "Deleted Product");
                     orderDetails.add(detail);
                 }
             }
