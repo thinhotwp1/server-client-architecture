@@ -30,10 +30,10 @@ class OrderAdapter(
     @SuppressLint("SetTextI18n")
     override fun onBindViewHolder(holder: OrderViewHolder, position: Int) {
         val order = orders[position]
-        holder.orderId.text = "Order: ${order.username.toUpperCase(Locale.ROOT) + " " +order.orderDate.substring(0, 10)}"
+        holder.orderId.text = "Order: ${order.username.toUpperCase(Locale.ROOT) + " " + order.orderDate.substring(0, 10)}"
         holder.orderStatus.text = "Status: ${order.status}"
         holder.orderDate.text = "Date: ${order.orderDate.substring(0, 10)}"
-        holder.total.text = "Total: ${order.total}"
+        holder.total.text = "Total: $${order.total}"
         holder.itemView.setOnClickListener {
             onItemClick(order.orderId)
         }

@@ -1,6 +1,7 @@
 package flc.demo.client.network
 
 import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -40,7 +41,13 @@ interface OrderService {
     @GET("/orders/user/{username}")
     suspend fun getOrdersByUsername(@Path("username") username: String): List<Order>
 
+    @GET("/orders")
+    suspend fun getAllOrders(): List<Order>
+
     @GET("/orders/details/{orderId}")
     suspend fun getOrderDetailsByOrderId(@Path("orderId") orderId: Long): List<OrderDetail>
+
+    @POST("/orders/updateStatus")
+    suspend fun updateOrderStatus(@Body request: UpdateOrderStatus): Response<Boolean>
 
 }

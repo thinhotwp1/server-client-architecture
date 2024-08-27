@@ -66,7 +66,23 @@
         <activity
             android:name=".CartActivity"
             android:exported="true"
-            android:label="@string/cart_activity_label" />
+            android:label="@string/cart_activity_label"/>
+
+        <activity
+            android:name=".OrdersHistoryActivity"
+            android:exported="true"
+            android:label="Orders History"/>
+
+        <activity
+            android:name=".OrderDetailsActivity"
+            android:exported="true"
+            android:label="Order Details"/>
+
+        <activity
+            android:name=".OrderManagementActivity"
+            android:exported="true"
+            android:label="Order Management"/>
+
 
     </application>
     <uses-permission android:name="android.permission.INTERNET"

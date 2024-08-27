@@ -25,7 +25,7 @@ class UserActivity : ComponentActivity() {
         }
 
         ordersHistoryButton.setOnClickListener {
-            val intent = Intent(this, OrdersHistory::class.java)
+            val intent = Intent(this, OrdersHistoryActivity::class.java)
             startActivity(intent)
         }
     }

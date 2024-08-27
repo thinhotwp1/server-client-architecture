@@ -28,7 +28,7 @@ public class OrderController {
         Order order = new Order();
         order.setUsername(orderRequest.getUsername());
         order.setOrderDate(LocalDateTime.now());
-        order.setStatus("Shipping");
+        order.setStatus("Pending");
 
         List<OrderDetail> orderDetails = orderRequest.getOrderDetails();
         double total = 0;
@@ -50,7 +50,12 @@ public class OrderController {
         return orderService.getOrdersByUsername(username);
     }
 
-    @PatchMapping("/updateStatus/{orderId}")
+    @GetMapping("")
+    public List<Order> getAllOrders() throws SQLException {
+        return orderService.getAllOrders();
+    }
+
+    @PostMapping("/updateStatus")
     public boolean updateOrderStatus(@RequestBody UpdateOrderStatus request) throws SQLException {
         return orderService.updateOrderStatus(request.getOrderId(), request.getStatus());
     }

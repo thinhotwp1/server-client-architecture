@@ -29,7 +29,7 @@ class OrderDetailAdapter(
         val orderDetail = orderDetails[position]
         holder.productName.text = "Product Name: ${orderDetail.productName}"
         holder.quantity.text = "Quantity: ${orderDetail.quantity}"
-        holder.price.text = "Price: ${orderDetail.price}"
+        holder.price.text = "Price: $`${orderDetail.price}"
     }
 
     override fun getItemCount(): Int = orderDetails.size

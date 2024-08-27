@@ -108,7 +108,7 @@ public class OrderService {
             conn.commit();
 
             // Schedule task to update order status after 3 minutes
-            scheduleStatusUpdate(orderId, "Completed");
+//            scheduleStatusUpdate(orderId, "Completed");
 
         } catch (Exception e) {
             log.error("Error creating order", e);
@@ -210,5 +210,29 @@ public class OrderService {
         }
 
         return orderDetails;
+    }
+
+    public List<Order> getAllOrders() {
+        List<Order> orders = new ArrayList<>();
+        String sql = "SELECT * FROM orders";
+
+        try (Connection conn = SQLiteConnection.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            try (ResultSet rs = pstmt.executeQuery()) {
+                while (rs.next()) {
+                    Order order = new Order();
+                    order.setOrderId(rs.getLong("order_id"));
+                    order.setUsername(rs.getString("username"));
+                    order.setOrderDate(LocalDateTime.parse(rs.getString("order_date")));
+                    order.setStatus(rs.getString("status"));
+                    order.setTotal(rs.getDouble("total"));
+                    orders.add(order);
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return orders;
     }
 }

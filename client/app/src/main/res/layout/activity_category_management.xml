@@ -26,6 +26,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/add_category"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
         android:layout_marginTop="16dp" />
 
     <!-- Button for editing a category -->
@@ -34,6 +36,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/edit_category"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
         android:layout_marginTop="16dp" />
 
     <!-- Button for deleting a category -->
@@ -42,5 +46,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Delete Category"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
         android:layout_marginTop="16dp" />
 </LinearLayout>

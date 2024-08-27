@@ -10,12 +10,27 @@
         android:id="@+id/manage_categories_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Categories" />
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
+        android:text="@string/manage_categories" />
 
     <Button
         android:id="@+id/manage_products_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Manage Products"
+        android:text="@string/manage_products"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
         android:layout_marginTop="16dp" />
+
+    <Button
+        android:id="@+id/manage_orders_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/manage_orders"
+        android:textColor="@android:color/white"
+        android:background="@drawable/button_background"
+        android:layout_marginTop="16dp" />
+
+
 </LinearLayout>

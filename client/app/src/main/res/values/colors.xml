@@ -16,4 +16,5 @@
     <color name="colorOnPrimary">#FFFFFF</color> <!-- White color -->
     <color name="colorSecondary">#03DAC5</color> <!-- Teal color -->
     <color name="colorOnSecondary">#000000</color> <!-- Black color -->
+    <color name="buttonBackground">#6200EE</color> <!-- Ví dụ màu tím -->
 </resources>

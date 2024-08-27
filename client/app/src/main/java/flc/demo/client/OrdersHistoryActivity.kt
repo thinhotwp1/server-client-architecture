@@ -15,7 +15,7 @@ import flc.demo.client.network.UserCurrent
 import kotlinx.coroutines.launch
 import androidx.lifecycle.lifecycleScope
 
-class OrdersHistory : ComponentActivity() {
+class OrdersHistoryActivity : ComponentActivity() {
 
     private lateinit var orderService: OrderService
     private lateinit var recyclerView: RecyclerView
@@ -49,7 +49,7 @@ class OrdersHistory : ComponentActivity() {
                     orderAdapter.notifyDataSetChanged()
                 } catch (e: Exception) {
                     e.printStackTrace()
-                    Toast.makeText(this@OrdersHistory, "Failed to load orders", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@OrdersHistoryActivity, "Failed to load orders", Toast.LENGTH_SHORT).show()
                 }
             }
         }
